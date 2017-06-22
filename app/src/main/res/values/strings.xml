@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Swiss News</string>
-    <string name="no_internet_connection">No internet connection.</string>
+    <string name="no_internet_connection">You need internet connection to\nread news. Connect to the internet\nand swipe down.</string>
     <string name="error_no_news">No news found.</string>
+    <string name="error_no_browser">Install a browser to read the article.</string>
 </resources>

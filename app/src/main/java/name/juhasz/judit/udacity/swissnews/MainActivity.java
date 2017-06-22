@@ -10,16 +10,20 @@ import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Article>> {
+
+    private final static String LOG_TAG = MainActivity.class.getSimpleName();
 
     private static final int ARTICLES_LOADER_ID = 1;
 
@@ -71,7 +75,13 @@ public class MainActivity extends AppCompatActivity
                 Uri articleUri = Uri.parse(currentArticle.getUrl());
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, articleUri);
 
-                startActivity(websiteIntent);
+                if (null != websiteIntent.resolveActivity(getPackageManager())) {
+                    startActivity(websiteIntent);
+                } else {
+                    Log.w(LOG_TAG, "Install a browser to read the article.");
+                    Toast.makeText(MainActivity.this, getString(R.string.error_no_browser),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
