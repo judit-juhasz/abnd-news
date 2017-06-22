@@ -12,7 +12,9 @@
         android:layout_marginTop="@dimen/margin_normal"
         android:paddingBottom="@dimen/padding_normal"
         android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginStart="@dimen/margin_normal"
         android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
         android:background="@color/colorArticleBackground">
 
         <View
@@ -31,6 +33,7 @@
                 android:adjustViewBounds="true"
                 android:layout_weight="5"
                 android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:paddingRight="@dimen/list_item_inner_divider_width" />
 
@@ -39,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
                 android:orientation="vertical"
-                android:layout_marginRight="@dimen/margin_normal">
+                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal">
 
                 <TextView
                     android:id="@+id/tv_section_of_article"
