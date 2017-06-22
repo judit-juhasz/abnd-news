@@ -13,6 +13,7 @@
         android:id="@+id/tv_title_of_article"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryText"
         android:textStyle="bold"
         android:textAppearance="?android:textAppearanceSmall"
         tools:text="Title"/>
@@ -21,6 +22,7 @@
         android:id="@+id/tv_section_of_article"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorSecondaryText"
         android:textAppearance="?android:textAppearanceSmall"
         tools:text="Category"/>
 
