@@ -5,10 +5,12 @@ import android.content.Context;
 
 import java.util.List;
 
+import static android.R.attr.key;
+
 public class ArticleLoader extends AsyncTaskLoader<List<Article>> {
 
     private static final String QUERY_URL =
-            "http://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&api-key=test";
+            "http://content.guardianapis.com/search?q=switzerland%20AND%20swiss&api-key=test";
 
 
     public ArticleLoader(Context context) { super(context); }
