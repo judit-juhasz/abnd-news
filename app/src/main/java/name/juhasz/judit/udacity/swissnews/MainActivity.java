@@ -7,9 +7,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -18,19 +19,25 @@ public class MainActivity extends AppCompatActivity
     private static final int ARTICLES_LOADER_ID = 1;
 
     private TextView mEmptyStateTextView;
+    private ListView mArticleListView;
+
+    private ArticleAdapter mArticleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        mEmptyStateTextView = (TextView) findViewById(R.id.tv_message_display);
 
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        mArticleListView = (ListView) findViewById(R.id.lv_articles);
+        mArticleAdapter = new ArticleAdapter(this, new ArrayList<Article>());
+        mArticleListView.setAdapter(mArticleAdapter);
+
+        final ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        // If there is a network connection, fetch data
         if (networkInfo != null && networkInfo.isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(ARTICLES_LOADER_ID, null, this);
@@ -46,18 +53,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> data) {
-        TextView searchResultTextView = (TextView) findViewById(R.id.tv_search_result);
+        mEmptyStateTextView.setText(R.string.error_no_news);
 
-        String articles = "";
-        for (Article article : data) {
-            articles = articles + article.getTitle() + "\n";
+        mArticleAdapter.clear();
+
+        if (data != null && !data.isEmpty()) {
+            mArticleAdapter.addAll(data);
         }
-
-        searchResultTextView.setText(articles);
     }
 
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
-
+        mEmptyStateTextView.setText(R.string.error_no_news);
     }
 }

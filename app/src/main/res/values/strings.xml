@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Swiss News</string>
-    <string name="search_button">Search</string>
-    <string name="search_result_description">Search result</string>
     <string name="no_internet_connection">No internet connection.</string>
+    <string name="error_no_news">No news to show</string>
 </resources>
