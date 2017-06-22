@@ -1,5 +1,7 @@
 package name.juhasz.judit.udacity.swissnews;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,6 +20,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public final class QueryUtils {
 
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
@@ -27,6 +30,9 @@ public final class QueryUtils {
     private static final String JSON_KEY_ARTICLE_TITLE = "webTitle";
     private static final String JSON_KEY_ARTICLE_SECTION_NAME = "sectionName";
     private static final String JSON_KEY_ARTICLE_WEBURL = "webUrl";
+    private static final String JSON_KEY_ARTICLE_FIELDS = "fields";
+    private static final String JSON_KEY_ARTICLE_THUMBNAIL_PATH = "thumbnail";
+
     private QueryUtils() {
     }
 
@@ -128,7 +134,13 @@ public final class QueryUtils {
                 String sectionName = currentArticle.getString(JSON_KEY_ARTICLE_SECTION_NAME);
                 String webUrl = currentArticle.getString(JSON_KEY_ARTICLE_WEBURL);
 
-                Article article = new Article(title, sectionName, webUrl);
+                String coverImagePath = null;
+                JSONObject articleImages = currentArticle.optJSONObject(JSON_KEY_ARTICLE_FIELDS);
+                if (null != articleImages) {
+                    coverImagePath = articleImages.optString(JSON_KEY_ARTICLE_THUMBNAIL_PATH);
+                }
+
+                Article article = new Article(title, sectionName, webUrl, coverImagePath);
                 articles.add(article);
             }
         } catch (JSONException e) {

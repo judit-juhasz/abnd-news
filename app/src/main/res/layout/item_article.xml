@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="@dimen/activity_horizontal_padding"
     android:paddingRight="@dimen/activity_horizontal_padding"
     android:paddingTop="@dimen/list_item_selector_padding"
     android:paddingBottom="@dimen/list_item_selector_padding">
 
-    <TextView
-        android:id="@+id/tv_title_of_article"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/iv_article_cover"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryText"
-        android:textStyle="bold"
-        android:textAppearance="?android:textAppearanceSmall"
-        tools:text="Title"/>
+        android:adjustViewBounds="true"
+        android:paddingRight="@dimen/list_item_inner_divider_width"
+        android:layout_weight="1"/>
 
-    <TextView
-        android:id="@+id/tv_section_of_article"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorSecondaryText"
-        android:textAppearance="?android:textAppearanceSmall"
-        tools:text="Category"/>
+        android:orientation="vertical"
+        android:layout_weight="4">
+
+        <TextView
+            android:id="@+id/tv_title_of_article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/colorPrimaryText"
+            tools:text="Title"/>
+
+        <TextView
+            android:id="@+id/tv_section_of_article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/colorSecondaryText"
+            tools:text="Category"/>
+
+    </LinearLayout>
 
 </LinearLayout>
