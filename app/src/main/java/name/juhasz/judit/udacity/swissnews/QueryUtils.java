@@ -18,7 +18,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public final class QueryUtils {
 
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
@@ -27,7 +26,7 @@ public final class QueryUtils {
     private static final String JSON_KEY_ARTICLE_RESULTS = "results";
     private static final String JSON_KEY_ARTICLE_TITLE = "webTitle";
     private static final String JSON_KEY_ARTICLE_SECTION_NAME = "sectionName";
-
+    private static final String JSON_KEY_ARTICLE_WEBURL = "webUrl";
     private QueryUtils() {
     }
 
@@ -127,8 +126,9 @@ public final class QueryUtils {
                 JSONObject currentArticle = articleArray.getJSONObject(i);
                 String title = currentArticle.getString(JSON_KEY_ARTICLE_TITLE);
                 String sectionName = currentArticle.getString(JSON_KEY_ARTICLE_SECTION_NAME);
+                String webUrl = currentArticle.getString(JSON_KEY_ARTICLE_WEBURL);
 
-                Article article = new Article(title, sectionName);
+                Article article = new Article(title, sectionName, webUrl);
                 articles.add(article);
             }
         } catch (JSONException e) {

@@ -2,16 +2,17 @@ package name.juhasz.judit.udacity.swissnews;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,11 @@ public class MainActivity extends AppCompatActivity
         mArticleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(MainActivity.this, "category", Toast.LENGTH_LONG).show();
+                Article currentArticle =mArticleAdapter.getItem(position);
+                Uri articleUri = Uri.parse(currentArticle.getUrl());
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, articleUri);
+
+                startActivity(websiteIntent);
             }
         });
     }

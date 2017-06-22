@@ -10,9 +10,8 @@ public class ArticleLoader extends AsyncTaskLoader<List<Article>> {
     private static final String QUERY_URL =
             "http://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&api-key=test";
 
-    public ArticleLoader(Context context) {
-        super(context);
-    }
+
+    public ArticleLoader(Context context) { super(context); }
 
     @Override
     protected void onStartLoading() {
