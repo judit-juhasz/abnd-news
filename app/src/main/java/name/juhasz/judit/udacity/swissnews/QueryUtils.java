@@ -1,7 +1,5 @@
 package name.juhasz.judit.udacity.swissnews;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,7 +17,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public final class QueryUtils {
 

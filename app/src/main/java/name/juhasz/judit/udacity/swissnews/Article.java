@@ -1,7 +1,5 @@
 package name.juhasz.judit.udacity.swissnews;
 
-import android.graphics.Bitmap;
-
 public class Article {
     private String mTitle;
     private String mSectionName;
