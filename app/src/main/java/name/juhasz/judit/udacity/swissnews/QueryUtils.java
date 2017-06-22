@@ -26,7 +26,7 @@ public final class QueryUtils {
     private static final String JSON_KEY_ARTICLES = "response";
     private static final String JSON_KEY_ARTICLE_RESULTS = "results";
     private static final String JSON_KEY_ARTICLE_TITLE = "webTitle";
-    private static final String JSON_KEY_ARTICAL_SECTION_NAME = "sectionName";
+    private static final String JSON_KEY_ARTICLE_SECTION_NAME = "sectionName";
 
     private QueryUtils() {
     }
@@ -126,7 +126,7 @@ public final class QueryUtils {
             for (int i = 0; i < articleArray.length(); i++) {
                 JSONObject currentArticle = articleArray.getJSONObject(i);
                 String title = currentArticle.getString(JSON_KEY_ARTICLE_TITLE);
-                String sectionName = currentArticle.getString(JSON_KEY_ARTICAL_SECTION_NAME);
+                String sectionName = currentArticle.getString(JSON_KEY_ARTICLE_SECTION_NAME);
 
                 Article article = new Article(title, sectionName);
                 articles.add(article);
