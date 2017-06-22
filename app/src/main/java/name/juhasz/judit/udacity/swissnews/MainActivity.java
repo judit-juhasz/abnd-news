@@ -35,36 +35,34 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mEmptyStateTextView = (TextView) findViewById(R.id.tv_message_display);
+        mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.srl_articles);
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (isNetworkAvailable()) {
+                    LoaderManager loaderManager = getLoaderManager();
+                    loaderManager.initLoader(ARTICLES_LOADER_ID, null, MainActivity.this);
+                } else {
+                    showMessage(getString(R.string.no_internet_connection));
+                }
+            }
+        });
 
         mArticleListView = (ListView) findViewById(R.id.lv_articles);
         mArticleAdapter = new ArticleAdapter(this, new ArrayList<Article>());
         mArticleListView.setAdapter(mArticleAdapter);
 
-        final ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (isNetworkAvailable()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(ARTICLES_LOADER_ID, null, this);
         } else {
-            mEmptyStateTextView.setText(R.string.no_internet_connection);
+            showMessage(getString(R.string.no_internet_connection));
         }
-
-        mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.srl_articles);
-        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                LoaderManager loaderManager = getLoaderManager();
-                loaderManager.initLoader(ARTICLES_LOADER_ID, null, MainActivity.this);
-            }
-        });
 
         mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
 
         mArticleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -85,22 +83,41 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> data) {
-        mEmptyStateTextView.setText(R.string.error_no_news);
-
-        mArticleAdapter.clear();
-
-        if (data != null && !data.isEmpty()) {
-            mSwipeContainer.setRefreshing(false);
-            mArticleAdapter.addAll(data);
+        boolean articlesAvailable = (null != data && !data.isEmpty());
+        if (articlesAvailable) {
+            showArticles(data);
+        } else {
+            showMessage(getString(R.string.error_no_news));
         }
     }
 
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
-        mArticleAdapter.clear();
+        showMessage(getString(R.string.error_no_news));
+    }
 
-        mEmptyStateTextView.setText(R.string.error_no_news);
-
+    private void showMessage(String message) {
         mSwipeContainer.setRefreshing(false);
+        mArticleListView.setVisibility(View.GONE);
+
+        mEmptyStateTextView.setText(message);
+        mEmptyStateTextView.setVisibility(View.VISIBLE);
+    }
+
+    private void showArticles(List<Article> articles) {
+        mSwipeContainer.setRefreshing(false);
+        mEmptyStateTextView.setVisibility(View.GONE);
+
+        mArticleAdapter.clear();
+        mArticleAdapter.addAll(articles);
+        mArticleListView.setVisibility(View.VISIBLE);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
