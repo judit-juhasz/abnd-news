@@ -1,7 +1,10 @@
 package name.juhasz.judit.udacity.swissnews;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,15 +17,26 @@ public class MainActivity extends AppCompatActivity
 
     private static final int ARTICLES_LOADER_ID = 1;
 
+    private TextView mEmptyStateTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    public void onClickSearch(View view) {
-        LoaderManager loaderManager = getLoaderManager();
-        loaderManager.initLoader(ARTICLES_LOADER_ID, null, this);
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        // If there is a network connection, fetch data
+        if (networkInfo != null && networkInfo.isConnected()) {
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(ARTICLES_LOADER_ID, null, this);
+        } else {
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
+        }
     }
 
     @Override
