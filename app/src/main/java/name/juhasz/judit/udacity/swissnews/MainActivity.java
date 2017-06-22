@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity
 
     private TextView mEmptyStateTextView;
     private ListView mArticleListView;
+    private SwipeRefreshLayout mSwipeContainer;
 
     private ArticleAdapter mArticleAdapter;
 
@@ -48,6 +50,20 @@ public class MainActivity extends AppCompatActivity
         } else {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
+
+        mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.srl_articles);
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                LoaderManager loaderManager = getLoaderManager();
+                loaderManager.initLoader(ARTICLES_LOADER_ID, null, MainActivity.this);
+            }
+        });
+
+        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
 
         mArticleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,12 +90,17 @@ public class MainActivity extends AppCompatActivity
         mArticleAdapter.clear();
 
         if (data != null && !data.isEmpty()) {
+            mSwipeContainer.setRefreshing(false);
             mArticleAdapter.addAll(data);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
+        mArticleAdapter.clear();
+
         mEmptyStateTextView.setText(R.string.error_no_news);
+
+        mSwipeContainer.setRefreshing(false);
     }
 }
